@@ -17,6 +17,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.Iterator;
+import java.util.concurrent.ExecutionException;
 
 import static com.fredtargaryen.fragileglass.FragileGlassBase.BREAKCAP;
 
@@ -158,9 +159,11 @@ public class BreakSystem
                     {
                         if (block.hasTileEntity(state)) {
                             TileEntity te = e.world.getTileEntity(blockPos);
-                            if (te.hasCapability(FragileGlassBase.FRAGILECAP, null)) {
-                                te.getCapability(FragileGlassBase.FRAGILECAP, null).onCrash(state, te, e, speed);
-                            }
+                            try{
+                                if (te.hasCapability(FragileGlassBase.FRAGILECAP, null)) {
+                                    te.getCapability(FragileGlassBase.FRAGILECAP, null).onCrash(state, te, e, speed);
+                                }
+                            }catch (Exception CodeCrime){}
                         }
                     }
                 }
